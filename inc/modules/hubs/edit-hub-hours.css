@@ -1,0 +1,194 @@
+/* ==========================================================
+   Kingdom Nexus - Edit Hub Hours Styles (v9.3)
+   âœ… Sunday locked 
+   âœ… Toast integration
+   âœ… Clean "to" labels (no duplicates)
+   âœ… Responsive fix: "to2nd" spacing resolved
+   ========================================================== */
+
+#hoursBlock {
+  background: #fff;
+  border: 2px solid #c3b6ff;
+  border-radius: 8px;
+  padding: 25px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+#hoursBlock h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Container */
+#knxHoursContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+
+/* Row */
+.knx-hours-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f8fbff;
+  border: 1px solid #e0e6f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  gap: 22px;
+  transition: background 0.2s ease;
+}
+.knx-hours-row:hover { background: #f1f6ff; }
+
+/* Sunday lock */
+.sunday-locked {
+  opacity: 0.6;
+  pointer-events: none;
+}
+.sunday-locked input.knx-disabled {
+  background: #f2f3f5;
+  border-color: #e0e2e6;
+  color: #777;
+  cursor: not-allowed;
+}
+
+/* Block layout */
+.main-block, .second-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 48%;
+  min-width: 0;
+}
+
+/* Inputs */
+input[type="time"] {
+  border: 1px solid #d5d8e0;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 14px;
+  color: #333;
+  width: 100%;
+  min-width: 130px;
+  max-width: 220px;
+  flex-grow: 2;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="time"]:focus {
+  border-color: #5563ff;
+  box-shadow: 0 0 0 2px rgba(85,99,255,0.15);
+}
+
+/* Checkboxes */
+.day-check, .second-check {
+  width: 18px; height: 18px;
+  accent-color: #5563ff;
+  cursor: pointer;
+}
+
+/* Labels */
+.main-block label {
+  font-weight: 600;
+  color: #333;
+  min-width: 70px;
+  text-align: left;
+}
+
+.to-label {
+  color: #888;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+/* Save */
+#knxSaveHoursBtn {
+  background: #225638;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+#knxSaveHoursBtn:hover { background: #18462c; }
+
+/* ==========================================================
+   XL Desktop (â‰¥1280px)
+   ========================================================== */
+@media (min-width: 1280px) {
+  #hoursBlock { max-width: 1350px; margin: 30px auto; }
+  .knx-hours-row { justify-content: flex-start; gap: 20px; padding: 12px 24px; }
+
+  input[type="time"] { max-width: 260px; min-width: 160px; }
+
+  .second-block span::after {
+    content: "Second Shift";
+    font-weight: 600;
+    color: #333;
+    margin-left: 4px;
+    white-space: nowrap;
+  }
+
+  .second-block .to-label::after { content: none !important; }
+}
+
+/* ==========================================================
+   Default Desktop (1025pxâ€“1279px)
+   ========================================================== */
+@media (max-width: 1279px) and (min-width: 1025px) {
+  .second-block span::after {
+    content: " 2nd"; /* ðŸ‘ˆ espacio real antes del texto */
+  }
+
+  .second-block span::before,
+  .second-block .to-label::after {
+    content: none !important;
+  }
+}
+
+/* ==========================================================
+   Mobile (â‰¤1012px)
+   ========================================================== */
+@media (max-width: 1012px) {
+  .knx-hours-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .main-block, .second-block {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  input[type="time"] {
+    width: 100%;
+    max-width: none;
+  }
+
+  .second-block span::after {
+    content: " 2nd"; /* ðŸ‘ˆ mantiene el espacio para evitar â€œto2ndâ€ */
+  }
+
+  .second-block span::before,
+  .second-block .to-label::after {
+    content: none !important;
+  }
+}
+
+/* ==========================================================
+   Small screens (â‰¤400px)
+   ========================================================== */
+@media (max-width: 400px) {
+  #hoursBlock { padding: 18px; }
+  .knx-hours-row { padding: 10px; }
+  input[type="time"] { font-size: 13px; }
+}

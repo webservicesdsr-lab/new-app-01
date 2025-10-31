@@ -1,0 +1,107 @@
+/* Kingdom Nexus - Home Page (v2) */
+
+body {
+  background: #FEF9F0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #225638;
+}
+
+.knx-hero {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.knx-hero h2 {
+  max-width: 650px;
+  margin: 0 auto 20px;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: #225638;
+}
+
+.knx-hero p {
+  color: #444;
+  margin-bottom: 25px;
+}
+
+.knx-searchbox {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.knx-searchbox input {
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #C8BBAA;
+  border-radius: 6px;
+  width: 280px;
+  max-width: 100%;
+  background: #fff;
+}
+
+.knx-searchbox button {
+  padding: 12px 20px;
+  background: #225638;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.knx-searchbox button:hover {
+  background: #18462c;
+}
+
+.knx-cities {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.knx-city-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 280px;
+  max-width: 90%;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+  background: #ddd;
+  min-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.knx-city-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.knx-city-card span {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(34,86,56,0.85);
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+@media (max-width:700px) {
+  .knx-hero h2 { font-size: 20px; }
+  .knx-hero p { font-size: 14px; }
+}

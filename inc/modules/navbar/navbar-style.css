@@ -1,0 +1,107 @@
+/* Kingdom Nexus - Navbar Style (v4 Formal) */
+
+:root{
+  --knx-nav-h:56px;
+  --knx-bg:#ffffff;
+  --knx-fg:#111111;
+  --knx-muted:#6b7280;
+  --knx-accent:#0B793A;
+  --knx-border:#e5e7eb;
+  --knx-shadow:0 6px 18px rgba(0,0,0,0.06);
+}
+
+.knx-nav{
+  position:sticky;
+  top:0;
+  z-index:1200;
+  background:var(--knx-bg);
+  border-bottom:1px solid var(--knx-border);
+  height:var(--knx-nav-h);
+}
+
+.knx-nav__inner{
+  max-width:1200px;
+  margin:0 auto;
+  height:var(--knx-nav-h);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+}
+
+.knx-nav__brand{
+  font-weight:800;
+  letter-spacing:.2px;
+  text-decoration:none;
+  color:var(--knx-fg);
+}
+
+.knx-nav__toggle{
+  display:none;
+  width:40px;height:40px;
+  border:1px solid var(--knx-border);
+  border-radius:10px;
+  background:#fff;
+  align-items:center;justify-content:center;
+}
+.knx-nav__toggle span{
+  display:block;width:18px;height:2px;background:var(--knx-fg);margin:3px 0;border-radius:2px;
+}
+
+.knx-nav__menu{
+  display:flex;align-items:center;gap:16px;
+}
+
+.knx-nav__menu a{
+  text-decoration:none;
+  color:var(--knx-fg);
+  font-weight:600;
+  padding:8px 10px;
+  border-radius:8px;
+  transition:background .2s,color .2s;
+}
+.knx-nav__menu a:hover{ background:#f5f7f9; }
+
+.knx-nav__cta{
+  background:var(--knx-accent);
+  color:#fff !important;
+  padding:8px 14px !important;
+  border-radius:10px;
+  box-shadow:var(--knx-shadow);
+}
+.knx-nav__cta:hover{ filter:brightness(.96); }
+
+.knx-nav__logout{
+  margin:0 0 0 4px;
+}
+.knx-nav__logout button{
+  border:1px solid var(--knx-border);
+  background:#fff;
+  padding:8px 12px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+}
+.knx-nav__logout button:hover{ background:#f9fafb; }
+
+/* Mobile */
+@media (max-width: 900px){
+  .knx-nav__toggle{ display:flex; }
+  .knx-nav__menu{
+    position:fixed;
+    top:var(--knx-nav-h);
+    right:12px;
+    left:12px;
+    background:#fff;
+    border:1px solid var(--knx-border);
+    border-radius:14px;
+    box-shadow:var(--knx-shadow);
+    padding:12px;
+    display:none;
+    flex-direction:column;
+    gap:6px;
+  }
+  .knx-nav__menu.is-open{ display:flex; }
+  .knx-nav__menu a{ width:100%; }
+  .knx-nav__logout button{ width:100%; }
+}
