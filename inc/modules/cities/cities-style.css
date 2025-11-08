@@ -6,15 +6,6 @@
  * ==========================================================
  */
 
-.knx-cities-wrapper {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 25px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  font-family: "DM Sans", sans-serif;
-}
 
 .knx-cities-header {
   display: flex;
@@ -282,8 +273,7 @@
 
 @media (max-width: 480px) {
   .knx-cities-wrapper {
-    margin: 20px auto;
-    padding: 15px;
+    margin-left: 58px;
   }
 
   .knx-add-btn {

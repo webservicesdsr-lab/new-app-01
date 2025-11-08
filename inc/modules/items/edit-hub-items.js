@@ -3,7 +3,7 @@
  * Kingdom Nexus - Edit Hub Items JS (v3.0 Production)
  * ----------------------------------------------------------
  * ✅ REST Real: get-hub-items, add-hub-item, delete-hub-item, reorder-item
- * ✅ Dynamic categories (from Z7E_items_categories)
+ * ✅ Dynamic categories (from knx_items_categories)
  * ✅ Modal Add Item with validation
  * ✅ Unified Toast feedback system
  * ✅ Fully compatible with /edit-hub-items/?id={hub_id}

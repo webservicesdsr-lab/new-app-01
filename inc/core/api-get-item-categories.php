@@ -23,9 +23,12 @@ add_action('rest_api_init', function () {
 function knx_api_get_item_categories(WP_REST_Request $r) {
     global $wpdb;
 
-    $table = $wpdb->prefix . 'items_categories';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table'") != $table)
-        $table = 'Z7E_items_categories';
+    // Resolve categories table using knx naming
+    if (function_exists('knx_items_categories_table')) {
+        $table = knx_items_categories_table();
+    } else {
+        $table = knx_items_categories_table();
+    }
 
     $hub_id = intval($r->get_param('hub_id'));
     if (!$hub_id) {

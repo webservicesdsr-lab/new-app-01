@@ -1,0 +1,278 @@
+/* ==========================================================
+   Edit Item — Hybrid Rows/Columns (v3.0 final)
+   • Desktop: rows como antes
+   • Mobile: columnas donde toca + botones en grid de 2 col
+   • Name (full) → Price|Category (2 cols) → Description → Image
+   • “Available choices” centrado; toolbar en 2 col en móvil
+   • Modales con estilo Nexus y botones en 2 col
+   ========================================================== */
+
+/* Tokens */
+:root{
+  --bg:#fff; --surface:#fbfcfd; --surface-2:#f6f8f9;
+  --ink:#0f172a; --ink-2:#1f2937; --muted:#6b7280;
+  --line:#e6eaec; --brand:#0B793A; --brand-2:#075b2c;
+  --accent:rgba(11,121,58,.06); --warn:#dc3545;
+  --shadow-1:0 6px 20px rgba(15,23,42,.06);
+  --shadow-2:0 12px 32px rgba(15,23,42,.08);
+  --radius-lg:14px; --radius-sm:8px; --text:.95rem;
+}
+
+/* Shell */
+.knx-edit-item-wrapper{width:100%;max-width:1400px;margin:0 auto;padding:0 20px;}
+.knx-edit-header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;}
+.knx-edit-header h2{margin:0;font-size:1.25rem;color:var(--ink);}
+
+/* Buttons (Nexus) */
+.knx-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--brand);color:#fff;border:0;border-radius:var(--radius-sm);
+  padding:10px 18px;font-weight:800;cursor:pointer;
+  transition:background .16s,transform .16s,box-shadow .16s;
+}
+.knx-btn:hover{background:var(--brand-2);transform:translateY(-1px);box-shadow:var(--shadow-1);}
+.knx-btn[disabled]{opacity:.6;cursor:default;}
+.knx-btn-outline{background:#fff;color:var(--brand);border:1px solid rgba(11,121,58,.18);}
+.knx-btn-outline:hover{background:var(--accent);}
+.knx-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line);
+  padding:10px 16px;border-radius:var(--radius-sm);font-weight:800;
+}
+.knx-btn-secondary:hover{background:#eef2f3;transform:translateY(-1px);}
+
+/* Form */
+#knxEditItemForm{padding:0 0 6px;}
+.knx-form-grid{
+  display:grid;grid-template-columns:1fr;gap:14px;
+  background:#fff;padding:14px;border:1px solid var(--line);
+  border-radius:var(--radius-lg);box-shadow:var(--shadow-1);
+}
+.knx-form-group{display:flex;flex-direction:column;gap:6px;}
+.knx-form-group label{font-weight:800;color:var(--ink);font-size:.98rem;}
+.knx-form-group input,.knx-form-group select,.knx-form-group textarea{
+  width:100%;padding:10px 12px;font-size:var(--text);
+  border:1px solid var(--line);border-radius:8px;background:#fff;
+  transition:border-color .15s,box-shadow .15s;
+}
+.knx-form-group textarea{min-height:100px;resize:vertical;}
+.knx-form-group :is(input,select,textarea):focus{
+  outline:none;border-color:rgba(11,121,58,.35);box-shadow:0 0 0 3px rgba(11,121,58,.12);
+}
+
+/* 2-column row (Price | Category) */
+.knx-form-row-two{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media (max-width:640px){.knx-form-row-two{grid-template-columns:1fr;}}
+
+/* Image preview */
+.knx-item-preview{margin-top:8px;}
+.knx-item-preview img{
+  display:block;width:100%;max-width:520px;max-height:320px;
+  object-fit:cover;border-radius:12px;border:1px solid var(--line);
+}
+
+/* Botonera — híbrido
+   - Desktop: centrados en fila
+   - Mobile: grid de 2 columnas (no a todo el ancho) */
+.knx-actions-centered{
+  display:grid;justify-content:center;gap:12px;padding:16px 0;
+  grid-template-columns:repeat(2, minmax(150px, 1fr));
+}
+.knx-actions-centered .knx-btn,
+.knx-actions-centered .knx-btn-secondary{width:100%;}
+@media (min-width:900px){
+  .knx-actions-centered{grid-template-columns:repeat(2,220px);}
+}
+
+/* ==========================================================
+   AVAILABLE CHOICES — híbrido y centrado
+   ========================================================== */
+.knx-choices-section{
+  width:100%;max-width:1400px;margin:18px auto 56px;padding:20px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:var(--shadow-1);
+}
+.center-stack{display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:16px;}
+.center-stack h3{margin:0;font-size:1.46rem;color:var(--ink);font-weight:900;text-align:center;letter-spacing:.2px;}
+
+/* Toolbar de botones: 2 columnas en móvil, fila en desktop */
+.knx-choices-toolbar{
+  display:grid;gap:10px;width:100%;margin:0 auto 20px;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  max-width:600px;
+}
+@media (min-width:768px){
+  .knx-choices-toolbar{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:12px;max-width:none;
+  }
+  .knx-choices-toolbar > *{min-width:200px;max-width:260px;}
+}
+
+.knx-modifiers-list{display:flex;flex-direction:column;gap:12px;}
+.knx-empty-state{
+  text-align:center;color:var(--muted);padding:32px 16px;
+  display:flex;flex-direction:column;align-items:center;
+  background:var(--surface);border:1px dashed var(--line);border-radius:12px;
+}
+.knx-empty-state i{display:block;margin-bottom:12px;}
+.knx-loading-small,.knx-error-small{text-align:center;color:var(--muted);padding:20px 8px;}
+.knx-error-small{background:rgba(220,38,38,.06);color:#b02a2a;border-radius:10px;}
+
+/* Group card */
+.knx-modifier-card{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1);overflow:hidden;}
+.knx-modifier-card-header{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 16px;border-bottom:1px solid #e9f3ec;background:#fff;
+  cursor:pointer;user-select:none;
+  transition:background .15s;
+}
+.knx-modifier-card-header:hover{background:#f9fdfb;}
+.knx-modifier-card-header:focus{outline:2px solid rgba(11,121,58,.35);outline-offset:-2px;}
+.knx-modifier-card.is-collapsed .knx-modifier-card-header{background:#f3faf6;border-bottom-color:#e0eee5;}
+
+/* Chevron button (left side) */
+.knx-chevron-btn{
+  flex-shrink:0;width:44px;height:44px;border-radius:10px;
+  background:#fff;border:1px solid rgba(16,24,32,.1);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#374151;transition:all .15s;
+}
+.knx-chevron-btn:hover{background:var(--accent);color:var(--brand);}
+.knx-chevron{transition:transform .18s ease;}
+.is-collapsed .knx-chevron{transform:rotate(180deg);}
+
+.knx-modifier-title{display:flex;flex-direction:column;gap:6px;flex:1;min-width:0;}
+.knx-modifier-title h4{margin:0;font-size:1.25rem;font-weight:900;color:var(--brand);line-height:1.2;}
+
+/* Badges: solo visibles cuando card está colapsada */
+.knx-meta{
+  display:none;flex-wrap:wrap;gap:4px;align-items:center;
+  font-size:.75rem;color:#6b7280;line-height:1.3;
+}
+.knx-modifier-card.is-collapsed .knx-meta{
+  display:flex;
+}
+
+/* Acciones del grupo */
+.knx-modifier-actions{display:flex;gap:8px;flex-wrap:wrap;flex-shrink:0;margin-left:auto;}
+.knx-icon-btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:40px;height:40px;padding:0 10px;gap:8px;
+  border:1px solid rgba(16,24,32,.1);border-radius:10px;background:#fff;color:#374151;
+  cursor:pointer;transition:all .15s;font-size:.95rem;font-weight:700;
+}
+.knx-icon-btn:hover{background:var(--accent);color:var(--brand);transform:translateY(-1px);}
+.knx-icon-btn.delete{color:#9b1c1c;}
+.knx-icon-btn.delete:hover{background:rgba(220,38,38,.06);color:#b02a2a;}
+
+/* Lista de opciones */
+.knx-options-list{
+  margin:0;padding:16px;background:var(--surface);
+  border-top:1px solid rgba(16,24,32,.06);
+  transition:max-height .18s ease;overflow:hidden;
+}
+.knx-modifier-card.is-collapsed .knx-options-list{max-height:0;padding-block:0;border-width:0;}
+
+.knx-option-item{
+  display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;
+  padding:10px 12px;background:#fff;border:1px solid var(--line);border-radius:12px;
+}
+.knx-option-item + .knx-option-item{margin-top:8px;}
+.knx-option-name{font-weight:900;color:var(--ink);}
+.knx-option-price{font-weight:900;color:var(--brand);white-space:nowrap;}
+.knx-option-actions{display:flex;gap:6px;align-items:center;}
+
+/* Mobile: asegurar que las acciones no se caigan */
+@media (max-width:375px){
+  .knx-option-item{grid-template-columns:minmax(0,1fr) auto auto;gap:8px;}
+  .knx-option-actions{gap:4px;}
+  .knx-icon-btn{min-width:38px;height:38px;padding:0 8px;}
+}
+
+/* ==========================================================
+   MODALES — estilo Nexus + botones en 2 columnas
+   ========================================================== */
+.knx-modal-overlay{position:fixed;inset:0;background:rgba(8,12,16,.35);display:flex;align-items:center;justify-content:center;padding:16px;z-index:9999;}
+.knx-modal-content{
+  background:#fff;border:1px solid var(--line);border-radius:16px;
+  width:100%;max-width:700px;max-height:90vh;overflow:auto;box-shadow:var(--shadow-2);
+}
+.knx-modal-header{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface);
+}
+.knx-modal-header h3{margin:0;font-size:1.12rem;color:var(--ink);font-weight:900;}
+.knx-modal-close{background:transparent;border:none;color:#6b7280;font-size:22px;cursor:pointer;}
+.knx-modal-content form{padding:14px;}
+
+/* Campos dentro del modal */
+.knx-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media (max-width:640px){.knx-form-row{grid-template-columns:1fr;}}
+
+/* Constructor de opciones en modal */
+.knx-option-row{
+  display:grid;grid-template-columns:auto 1fr 120px auto auto;
+  align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed rgba(0,0,0,.06);
+}
+.knx-opt-drag{width:22px;height:22px;border-radius:6px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;cursor:grab;user-select:none;color:#6b7280;}
+.knx-option-row input[type="text"],.knx-option-row input[type="number"]{padding:8px;border:1px solid var(--line);border-radius:8px;}
+.knx-option-row input[type="number"]{text-align:right;}
+.knx-small-link{
+  display:inline-flex;align-items:center;gap:8px;color:var(--brand);
+  background:rgba(11,121,58,.08);border:1px solid rgba(11,121,58,.18);
+  padding:6px 10px;border-radius:999px;font-weight:800;
+}
+
+/* Botonera del modal — 2 columnas siempre que quepa */
+.knx-modal-actions{
+  display:grid;gap:10px;margin-top:12px;
+  grid-template-columns:repeat(2, minmax(140px, 1fr));
+}
+@media (min-width:900px){
+  .knx-modal-actions{grid-template-columns:repeat(2, 220px);justify-content:center;}
+}
+.knx-modal-actions .knx-btn,
+.knx-modal-actions .knx-btn-secondary{width:100%;}
+
+/* ==========================================================
+   Global Library Modal (lista)
+   ========================================================== */
+.knx-global-library-list{
+  max-height:70vh;overflow:auto;padding:12px 14px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.knx-global-item{background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow-1);overflow:hidden;}
+.knx-global-head{
+  display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;
+  padding:10px 12px;background:#f3faf6;border-bottom:1px solid #e0eee5;
+}
+.knx-global-title{display:flex;flex-direction:column;gap:4px;}
+.knx-global-title h4{margin:0;font-size:1.05rem;font-weight:900;color:var(--brand);}
+.knx-global-meta{font-size:.93rem;color:#4b5563;}
+.knx-global-actions{display:flex;gap:8px;flex-wrap:wrap;}
+.knx-global-options{padding:10px 12px;border-top:1px dashed #e5e7eb;display:flex;flex-direction:column;gap:8px;}
+.knx-global-line{
+  display:grid;grid-template-columns:1fr auto;gap:10px;background:#fafafa;
+  padding:8px 10px;border-radius:10px;font-weight:700;color:#374151;
+}
+
+/* Badges for modifiers/options */
+.knx-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:3px 8px; border-radius:999px; font-weight:700; font-size:.85rem;
+  border:1px solid #e5e7eb; color:#374151; background:#fff;
+}
+.knx-badge-gray{ background:#f3f4f6; border-color:#e5e7eb; color:#374151; }
+.knx-badge-green{ background:#ecfdf5; border-color:#c7f0dc; color:#065f46; }
+.knx-badge-red{ background:#fef2f2; border-color:#f5c2c7; color:#b02a2a; }
+.knx-badge-teal{ background:#f0fdfa; border-color:#99f6e4; color:#0f766e; }
+.knx-badge-gold{ background:#fff7ed; border-color:#fde68a; color:#92400e; }
+
+.knx-free-badge{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:2px 8px; border-radius:999px; font-weight:900; font-size:.85rem;
+  background:#eef4ff; border:1px solid #c7d2fe; color:#1e40af;
+}
+
+/* Utilidades */
+.knx-required{color:#b02a2a;}
+.hidden{display:none!important;}

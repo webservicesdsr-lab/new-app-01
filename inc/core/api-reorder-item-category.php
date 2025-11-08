@@ -24,9 +24,8 @@ function knx_api_reorder_item_category(WP_REST_Request $r) {
     global $wpdb;
 
     /** Detect correct table (portable) */
-    $table = $wpdb->prefix . 'items_categories';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table'") != $table)
-        $table = 'Z7E_items_categories';
+    // Resolve categories table using knx naming
+    $table = knx_items_categories_table();
 
     /** Validate session */
     $session = knx_get_session();

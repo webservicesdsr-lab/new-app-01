@@ -3,41 +3,43 @@ if (!defined('ABSPATH')) exit;
 
 /**
  * ==========================================================
- * Kingdom Nexus - Edit Hub Items (v2.7 Production)
+ * Kingdom Nexus - Edit Hub Items (v3.3 Production FINAL CLEAN)
  * ----------------------------------------------------------
- * ✅ Compatible con Sidebar y Toast global
- * ✅ Estructura limpia y centrada (.knx-with-sidebar)
+ * ✅ Compatible con Sidebar y Toast
  * ✅ REST Real (get/add/delete/reorder)
- * ✅ Categorías dinámicas (Z7E_items_categories)
- * ✅ Modales Add / Delete
- * ✅ Sin duplicar sidebar ni JS redundante
+ * ✅ Categorías dinámicas (knx_items_categories)
+ * ✅ Botón Edit apunta a /edit-item/?hub_id=&id=
+ * ✅ Sin botón Manage Addons
+ * ✅ Layout alineado con CSS v6.0
  * ==========================================================
  */
 
 add_shortcode('knx_edit_hub_items', function() {
 
+    // --- Auth Guard ---
     $session = knx_get_session();
     if (!$session || !in_array($session->role, ['manager','super_admin','hub_management','menu_uploader'])) {
         wp_safe_redirect(site_url('/login'));
         exit;
     }
 
+    // --- Hub ID Required ---
     $hub_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     if (!$hub_id) {
         echo '<div class="knx-warning">Invalid or missing Hub ID.</div>';
         return;
     }
 
-    $nonce = wp_create_nonce('knx_edit_hub_nonce');
-
-    $back_hubs_url  = esc_url(site_url('/hubs'));
+    // --- Nonce & URLs ---
+    $nonce           = wp_create_nonce('knx_edit_hub_nonce');
+    $back_hubs_url   = esc_url(site_url('/hubs'));
     $manage_cats_url = esc_url(add_query_arg(['id' => $hub_id], site_url('/edit-item-categories')));
+    $edit_item_url   = esc_url(site_url('/edit-item/'));
 
     ob_start(); ?>
 
 <link rel="stylesheet" href="<?php echo esc_url(KNX_URL . 'inc/modules/items/edit-hub-items.css?v=' . KNX_VERSION); ?>">
 
-<!-- Content -->
 <div class="knx-content knx-with-sidebar">
 
   <div class="knx-items-wrapper"
@@ -47,41 +49,49 @@ add_shortcode('knx_edit_hub_items', function() {
       data-api-reorder="<?php echo esc_url(rest_url('knx/v1/reorder-item')); ?>"
       data-api-cats="<?php echo esc_url(rest_url('knx/v1/get-item-categories')); ?>"
       data-hub-id="<?php echo esc_attr($hub_id); ?>"
-      data-nonce="<?php echo esc_attr($nonce); ?>">
+      data-nonce="<?php echo esc_attr($nonce); ?>"
+      data-edit-item-url="<?php echo $edit_item_url; ?>">
 
+      <!-- ====== HEADER ====== -->
       <div class="knx-hubs-header">
         <h2><i class="fas fa-utensils"></i> Hub Menu Items</h2>
 
+        <!-- ====== CONTROLS ====== -->
         <div class="knx-hubs-controls">
+
+          <!-- Search -->
           <form class="knx-search-form" id="knxSearchForm">
             <input type="hidden" name="id" value="<?php echo esc_attr($hub_id); ?>">
             <input type="text" id="knxSearchInput" name="search" placeholder="Search items...">
             <button type="submit"><i class="fas fa-search"></i></button>
           </form>
 
-          <a class="knx-btn-secondary" href="<?php echo $back_hubs_url; ?>">
-            <i class="fas fa-arrow-left"></i> Back to Hubs
-          </a>
+          <!-- Action Buttons -->
+          <div class="knx-hubs-buttons">
+            <a class="knx-btn-secondary" href="<?php echo $back_hubs_url; ?>">
+              <i class="fas fa-arrow-left"></i> Back to Hubs
+            </a>
 
-          <a class="knx-btn-yellow" href="<?php echo $manage_cats_url; ?>">
-            <i class="fas fa-layer-group"></i> Manage Categories
-          </a>
+            <a class="knx-btn-yellow" href="<?php echo $manage_cats_url; ?>">
+              <i class="fas fa-layer-group"></i> Manage Categories
+            </a>
 
-          <button id="knxAddItemBtn" class="knx-add-btn">
-            <i class="fas fa-plus"></i> Add Item
-          </button>
+            <button id="knxAddItemBtn" class="knx-add-btn">
+              <i class="fas fa-plus"></i> Add Item
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Categories + Items -->
+      <!-- ====== ITEMS ====== -->
       <div id="knxCategoriesContainer" class="knx-categories-container"></div>
 
-      <!-- Pagination -->
+      <!-- ====== PAGINATION ====== -->
       <div class="knx-pagination"></div>
   </div>
 </div>
 
-<!-- Modal: Add Item -->
+<!-- ====== MODAL: ADD ITEM ====== -->
 <div id="knxAddItemModal" class="knx-modal" role="dialog" aria-modal="true" aria-labelledby="knxAddItemTitle">
   <div class="knx-modal-content">
     <h3 id="knxAddItemTitle">Add New Item</h3>
@@ -118,7 +128,7 @@ add_shortcode('knx_edit_hub_items', function() {
   </div>
 </div>
 
-<!-- Modal: Delete Item -->
+<!-- ====== MODAL: DELETE ITEM ====== -->
 <div id="knxDeleteItemModal" class="knx-modal" role="dialog" aria-modal="true" aria-labelledby="knxDeleteItemTitle">
   <div class="knx-modal-content">
     <h3 id="knxDeleteItemTitle">Confirm delete</h3>
@@ -139,17 +149,6 @@ add_shortcode('knx_edit_hub_items', function() {
 
 <script src="<?php echo esc_url(KNX_URL . 'inc/modules/items/edit-hub-items.js?v=' . KNX_VERSION); ?>"></script>
 
-<style>
-/* Sidebar-aware layout */
-.knx-with-sidebar {
-  margin-left: 230px;
-  min-height: 100vh;
-  padding-bottom: 40px;
-}
-@media (max-width: 900px) {
-  .knx-with-sidebar { margin-left: 70px; }
-}
-</style>
 
 <?php
     return ob_get_clean();

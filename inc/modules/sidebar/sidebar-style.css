@@ -94,6 +94,13 @@
   font-size: 17px;
 }
 
+.knx-content {
+  min-height: 100vh;
+  overflow-x: auto;
+}
+
+
+
 /* ===== Desktop ===== */
 @media (min-width: 901px) {
   .knx-expand-btn {
@@ -107,18 +114,15 @@
 /* ===== Mobile ===== */
 @media (max-width: 900px) {
   .knx-sidebar {
-    width: 70px;
+    width: 58px;
   }
   .knx-sidebar.expanded {
-    width: 230px;
+    width: 200px;
   }
   .knx-sidebar-menu li a span {
     display: none;
   }
   .knx-sidebar.expanded li a span {
     display: inline;
-  }
-  body {
-    margin-left: 70px;
   }
 }

@@ -24,9 +24,7 @@ function knx_api_delete_item_category(WP_REST_Request $r) {
     global $wpdb;
 
     /** Detect correct table (supports Z7E_ prefix) */
-    $table = $wpdb->prefix . 'items_categories';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table'") != $table)
-        $table = 'Z7E_items_categories';
+    $table = knx_items_categories_table();
 
     /** Validate and sanitize input */
     $hub_id = intval($r->get_param('hub_id'));

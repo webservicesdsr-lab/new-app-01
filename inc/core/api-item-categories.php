@@ -9,7 +9,7 @@ if (!defined('ABSPATH')) exit;
  *  - POST /knx/v1/reorder-item-category     (hub_id, category_id, move=up|down)
  *  - POST /knx/v1/toggle-item-category      (hub_id, category_id, status=active|inactive)  <-- ya lo tienes, lo exponemos aquí por si aún no existe
  * Tablas:
- *  - Z7E_items_categories
+ *  - Z7E_knx_items_categories (preferred) / legacy Z7E_items_categories
  */
 
 add_action('rest_api_init', function () {
@@ -40,15 +40,10 @@ add_action('rest_api_init', function () {
     ]);
 });
 
-/** Table resolver */
-function knx_items_categories_table() {
-    global $wpdb;
-    $fixed = 'Z7E_items_categories';
-    // Asegura uso de la fija; si no existe, intenta prefijo estándar como fallback.
-    if ($wpdb->get_var("SHOW TABLES LIKE '{$fixed}'") === $fixed) return $fixed;
-    $pref = $wpdb->prefix . 'items_categories';
-    return $pref;
-}
+// Use centralized table resolver `knx_items_categories_table()` from `inc/functions/helpers.php`.
+// The canonical table name is provided by `knx_table('items_categories')` and
+// must be WP-prefixed + 'knx_' (e.g. Z7E_knx_items_categories). Legacy fallbacks
+// have been removed intentionally to avoid collisions.
 
 /** JSON helper */
 if (!function_exists('knx_json_response')) {

@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) exit;
  * Kingdom Nexus - API: Hub Items CRUD (v3.0 Production)
  * ----------------------------------------------------------
  * ✅ REST Real: get-hub-items, add-hub-item, delete-hub-item
- * ✅ Includes category_name via LEFT JOIN (Z7E_items_categories)
+ * ✅ Includes category_name via LEFT JOIN (knx_items_categories)
  * ✅ Compatible with edit-hub-items.js v3.0
  * ✅ Portable prefix (Z7E_ or default)
  * ==========================================================
@@ -44,14 +44,9 @@ add_action('rest_api_init', function () {
 function knx_api_get_hub_items(WP_REST_Request $r) {
     global $wpdb;
 
-    $table_items = $wpdb->prefix . 'kbx_hub_items';
-    $table_cats  = $wpdb->prefix . 'items_categories';
-
-    // Fallback if prefix is missing
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_items'") != $table_items)
-        $table_items = 'Z7E_kbx_hub_items';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_cats'") != $table_cats)
-        $table_cats = 'Z7E_items_categories';
+    // Canonical KNX tables (no legacy fallbacks). Use central helper so names are consistent.
+    $table_items = knx_table('hub_items');
+    $table_cats  = knx_table('items_categories');
 
     $hub_id = intval($r->get_param('hub_id'));
     if (!$hub_id) {
@@ -100,9 +95,8 @@ function knx_api_get_hub_items(WP_REST_Request $r) {
 function knx_api_add_hub_item(WP_REST_Request $r) {
     global $wpdb;
 
-    $table_items = $wpdb->prefix . 'kbx_hub_items';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_items'") != $table_items)
-        $table_items = 'Z7E_kbx_hub_items';
+    // Use canonical KNX hub items table
+    $table_items = knx_table('hub_items');
 
     $session = knx_get_session();
     if (!$session) {
@@ -178,9 +172,8 @@ function knx_api_add_hub_item(WP_REST_Request $r) {
 function knx_api_delete_hub_item(WP_REST_Request $r) {
     global $wpdb;
 
-    $table_items = $wpdb->prefix . 'kbx_hub_items';
-    if ($wpdb->get_var("SHOW TABLES LIKE '$table_items'") != $table_items)
-        $table_items = 'Z7E_kbx_hub_items';
+    // Use canonical KNX hub items table
+    $table_items = knx_table('hub_items');
 
     $hub_id = intval($r->get_param('hub_id'));
     $id     = intval($r->get_param('id'));

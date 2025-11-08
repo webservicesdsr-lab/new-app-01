@@ -16,15 +16,7 @@ add_action('rest_api_init', function () {
     ]);
 });
 
-if (!function_exists('knx_items_table')) {
-    function knx_items_table() {
-        global $wpdb;
-        $primary = 'Z7E_kbx_hub_items';
-        if ($wpdb->get_var("SHOW TABLES LIKE '{$primary}'") === $primary) return $primary;
-        $fallback = $wpdb->prefix . 'kbx_hub_items';
-        return ($wpdb->get_var("SHOW TABLES LIKE '{$fallback}'") === $fallback) ? $fallback : $primary;
-    }
-}
+// Use centralized `knx_table('hub_items')` helper from `inc/functions/helpers.php`.
 if (!function_exists('knx_json_response')) {
     function knx_json_response($success, $data = [], $status = 200) {
         return new WP_REST_Response(array_merge(['success' => $success], $data), $status);
@@ -34,7 +26,7 @@ if (!function_exists('knx_json_response')) {
 function knx_api_reorder_item_v25(WP_REST_Request $r) {
     global $wpdb;
 
-    $table = knx_items_table();
+    $table = knx_table('hub_items');
 
     $session = knx_get_session();
     if (!$session) return knx_json_response(false, ['error' => 'unauthorized'], 403);

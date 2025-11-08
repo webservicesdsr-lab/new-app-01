@@ -105,3 +105,26 @@ function knx_logout_user() {
     wp_safe_redirect(site_url('/login'));
     exit;
 }
+
+
+/**
+ * Return the canonical KNX table name for a logical resource.
+ *
+ * Usage: knx_table('items_categories') => "$wpdb->prefix . 'knx_items_categories'"
+ * This enforces the rule that all KNX tables are named using the WP DB prefix
+ * + the "knx_" namespace (e.g. Z7E_knx_items_categories). We intentionally
+ * *do not* fallback to legacy or bare table names to avoid collisions with
+ * other plugins/tables.
+ */
+function knx_table($name) {
+    global $wpdb;
+    $clean = preg_replace('/[^a-z0-9_]/i', '', $name);
+    return $wpdb->prefix . 'knx_' . $clean;
+}
+
+/**
+ * Resolve the items categories table name (canonical).
+ */
+function knx_items_categories_table() {
+    return knx_table('items_categories');
+}

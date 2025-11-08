@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Kingdom Nexus
  * Description: Modular secure framework for authentication, roles, and dashboards with smart redirects.
- * Version: 2.6
+ * Version: 2.8.0
  * Author: Kingdom Builders
  */
 
@@ -10,7 +10,7 @@ if (!defined('ABSPATH')) exit;
 
 define('KNX_PATH', plugin_dir_path(__FILE__));
 define('KNX_URL', plugin_dir_url(__FILE__));
-define('KNX_VERSION', '2.6');
+define('KNX_VERSION', '2.8.0');
 
 if (!is_ssl() && !defined('WP_DEBUG')) {
     if (strpos($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '', 'https') !== false) {
@@ -48,6 +48,13 @@ add_action('plugins_loaded', function() {
     knx_require('inc/core/api-reorder-item-category.php');
     knx_require('inc/core/api-toggle-item-category.php');
     knx_require('inc/core/api-delete-item-category.php');
+    
+    knx_require('inc/core/api-get-item-details.php');
+    knx_require('inc/core/api-update-item.php');
+    knx_require('inc/modules/items/edit-item.php');
+
+    // Modifiers system (WIX-style)
+    knx_require('inc/core/api-modifiers.php');
 
     $core_apis = [
         'api-edit-hub-identity.php',
@@ -67,6 +74,10 @@ add_action('plugins_loaded', function() {
 
     knx_require('inc/modules/items/edit-hub-items.php');
     knx_require('inc/modules/items/edit-item-categories.php');
+    // Optional frontend app (menu uploader) loader. The loader will enqueue
+    // a built bundle at menu-uploading-frontend/dist or point to the Vite dev
+    // server during development.
+    knx_require('inc/modules/items/menu-uploading-frontend/loader.php');
 
     knx_require('inc/modules/navbar/navbar-render.php');
     knx_require('inc/modules/sidebar/sidebar-render.php');
